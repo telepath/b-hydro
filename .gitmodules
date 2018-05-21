@@ -1,0 +1,3 @@
+[submodule "s-hydro"]
+	path = s-hydro
+	url = ../s-hydro.git

@@ -1,3 +1,6 @@
 [submodule "s-hydro"]
 	path = s-hydro
 	url = ../s-hydro.git
+[submodule "v-hydro"]
+	path = v-hydro
+	url = git@github.com:telepath/v-hydro.git

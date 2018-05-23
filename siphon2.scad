@@ -32,18 +32,22 @@ screw_siphon();
 
 module screw_siphon() {
   foot();
-  translate([0, 0, LidHeight*2]) {
-    siphon(do=di+w*2,di=di,h=h-LidHeight*2);
-  }
+  siphon(do=di+w*2,di=di,h=h);
 }
 
 module foot() {
   inner_thread();
   translate([0, 0, LidHeight]) {
     difference() {
-      cylinder(d1=ThreadOuterDiameter, d2=di+w*2, h=LidHeight);
+      union() {
+        cylinder(d=ThreadOuterDiameter+w, h=LidHeight/2);
+        translate([0, 0, LidHeight/2]) {
+          cylinder(d1=ThreadOuterDiameter+w, d2=di+w*2, h=LidHeight);
+        }
+      }
       translate([0, 0, -f]) {
-        cylinder(d1=ThreadInnerDiameter-WallThickness, d2=di, h=LidHeight+f2);
+        /* cylinder(d1=ThreadInnerDiameter-WallThickness, d2=di, h=LidHeight+f2); */
+        cylinder(d=di, h=LidHeight*1.5+f2);
       }
     }
   }

@@ -3,7 +3,9 @@ include <s-hydro/BottleThread.scad>
 // wall thickness
 w=1.5;
 // inner diameter
-di=15;
+di=10;
+// funnel outer diameter
+fdo=30;
 // heigt (water level)
 h=135;
 // fine walls
@@ -26,7 +28,7 @@ ThreadInnerDiameter=ThreadOuterDiameter-w; // Used only for cleanup. */
 } */
 /* cover_snorkel(); */
 
-/* %screw_siphon(); */
+screw_siphon();
 
 module screw_siphon() {
   foot();
@@ -163,7 +165,7 @@ module base_hull(h=h,r=di/2,do=di*3) {
 module siphon(do=di+w*2,di=di,h=h) {
   pipe(do=di+w*2,di=di,h=h-di/2);
   translate([0, 0, h-di/2]) {
-    funnel(di);
+    funnel(di=di,do=fdo);
   }
 }
 
@@ -176,13 +178,13 @@ module pipe(do=di+w*2,di=di,h=h) {
   }
 }
 
-module funnel(di) {
+module funnel(di=di,do=di*2) {
   difference() {
     intersection() {
-      cylinder(r=di, h=di);
-      torus(di,di*2);
+      cylinder(d=fdo, h=di);
+      torus(do/2,di+do/2);
     }
-      torus(di-w,di*2+w);
+      torus(do/2-w,di+do/2+w);
   }
 }
 

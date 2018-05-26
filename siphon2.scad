@@ -1,21 +1,5 @@
-include <s-hydro/BottleThread.scad>
-
-// wall thickness
-w=1.5;
-// inner diameter
-di=10;
-// funnel outer diameter
-fdo=30;
-// heigt (water level)
-h=135;
-// fine walls
-f=0.01;
-// double fine walls
-f2=f*2;
-// cover inner diameter
-cdi=di*2.5;
-// cover edge radius
-cr=di/4;
+include <v-hydro/lib/nozzle.scad>
+include <large_config.scad>
 
 /* ThreadOuterDiameter=di+w;
 ThreadInnerDiameter=ThreadOuterDiameter-w; // Used only for cleanup. */
@@ -28,7 +12,24 @@ ThreadInnerDiameter=ThreadOuterDiameter-w; // Used only for cleanup. */
 } */
 /* cover_snorkel(); */
 
-screw_siphon();
+/* screw_siphon(); */
+
+/* screw_siphon_nozzle(); */
+module screw_siphon_nozzle() {
+  l=LidHeight*2;
+  foot();
+  translate([0, 0, LidHeight]) {
+    siphon(do=di+w*2,di=di,h=h-LidHeight);
+  }
+  translate([0, 0, -l+LidHeight]) {
+    difference() {
+      nozzle(l=l,do=ndo,di=ndo-w*2,n1=w/2,n2=ndo-di-w/2);
+      translate([0, 0, l-l/5]) {
+        cylinder(d1=ndo-w*2, d2=di, h=l/5+f);
+      }
+    }
+  }
+}
 
 module screw_siphon() {
   foot();
@@ -155,7 +156,7 @@ module base_hull(h=h,r=di/2,do=di*3) {
   d=r*2;
   translate([0, 0, h]) {
     difference() {
-      torus(d1=d,d2=do-d);
+      torus_d(d1=d,d2=do-d);
       cylinder(d=do-d, h=r);
       translate([0, 0, -r]) {
         cylinder(d=do, h=r);
@@ -186,13 +187,13 @@ module funnel(di=di,do=di*2) {
   difference() {
     intersection() {
       cylinder(d=fdo, h=di);
-      torus(do/2,di+do/2);
+      torus_d(do/2,di+do/2);
     }
-      torus(do/2-w,di+do/2+w);
+      torus_d(do/2-w,di+do/2+w);
   }
 }
 
-module torus(d1,d2){
+module torus_d(d1,d2){
   rotate_extrude(convexity=10) {
     translate([d2/2, 0, 0]) {
       circle(d=d1);

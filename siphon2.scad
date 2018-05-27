@@ -1,5 +1,25 @@
 include <v-hydro/lib/nozzle.scad>
-include <large_config.scad>
+/* include <large_config.scad> */
+
+// wall thickness
+w=1.5;
+f=0.01;
+
+//// SIPHON
+// inner diameter
+di=10;
+// funnel outer diameter
+fdo=30;
+// heigt (water level)
+h=135;
+// double fine walls
+f2=f*2;
+// cover inner diameter
+cdi=di*2.5;
+// cover edge radius
+cr=di/4;
+// nozzle outer diameter
+ndo=8;
 
 /* ThreadOuterDiameter=di+w;
 ThreadInnerDiameter=ThreadOuterDiameter-w; // Used only for cleanup. */
@@ -8,7 +28,7 @@ ThreadInnerDiameter=ThreadOuterDiameter-w; // Used only for cleanup. */
 /* snorkel(); */
 /* foot(); */
 /* translate([0, 0, LidHeight]) {
-  cover_snorkel(x=cdi/2,di=di/3,cr=cr,w=w*0.75,h=h-LidHeight);
+  cover_snorkel(x=cdi/2,di=di/2,cr=cr,w=w,h=h-LidHeight);
 } */
 /* cover_snorkel(); */
 
@@ -67,17 +87,20 @@ module holder(d=di+w*2,n=2) {
   }
 }
 
-module cover_snorkel(x=cdi/2,di=di/3,cr=cr,w=w*0.75,h=h) {
+module cover_snorkel(cdi=cdi,di=di/3,cr=cr,w=w*0.75,h=h) {
   do=di+w*2;
+  fn=24;
+  $fn=fn;
+  x=cdi/2;
   difference() {
     union() {
       cover(h=h,cdi=cdi,r=cr,w=w);
-      translate([0, 0, -LidHeight+w]) {
-        snorkel_outer(x=x,di=di,w=w,h=h+LidHeight-w);
+      translate([0, 0, 0]) {
+        snorkel_outer(x=x,di=di,w=w,h=h,$fn=fn);
       }
     }
-    translate([0, 0, -LidHeight+w]) {
-      snorkel_inner(x=x,di=di,w=w,h=h+LidHeight-w);
+    translate([0, 0, 0]) {
+      snorkel_inner(x=x,di=di,w=w,h=h,$fn=fn);
     }
   }
   translate([0, 0, h+cr]) {
@@ -94,7 +117,9 @@ module snorkel(x=cdi/2+w/2,di=di/3,w=w*0.75,h=h) {
 
 module snorkel_outer(x=cdi/2,di=di/3,w=w*0.75,h=h) {
   do=di+w*2;
-  h0=do/2;
+  h0=0;
+  //height of cup
+  hc=do*2+w*2;
   translate([x, 0, 0]) {
     translate([0, 0, h0]) {
       cylinder(d=do, h=h-h0);
@@ -102,17 +127,16 @@ module snorkel_outer(x=cdi/2,di=di/3,w=w*0.75,h=h) {
     translate([0, 0, h]) {
       sphere(d=do);
     }
-    translate([0, 0, h0]) {
-      sphere(d=do);
-    }
-    translate([di/2, 0, h0+w]) {
+    translate([do/2-w*1.5, 0, -di]) {
       difference()
       {
-        sphere(d=do+w*2);
-        sphere(d=do);
-        translate([di/2-w, 0, di/2]) {
-          sphere(d=di+w);
+        cylinder(d=do*1.5, h=hc);
+        translate([0, 0, w]) {
+          cylinder(d=do*1.5-w*2, h=hc);
         }
+        translate([di-w, 0, hc-w]) {
+          sphere(d=do*2);
+      }
       }
     }
   }
@@ -120,7 +144,7 @@ module snorkel_outer(x=cdi/2,di=di/3,w=w*0.75,h=h) {
 
 module snorkel_inner(x=cdi/2,di=di/3,w=w*0.75,h=h) {
   do=di+w*2;
-  h0=do/2;
+  h0=0;
   translate([x, 0, 0]) {
     translate([0, 0, h0-f]) {
       cylinder(d=di, h=h+f2-h0);
@@ -133,12 +157,12 @@ module snorkel_inner(x=cdi/2,di=di/3,w=w*0.75,h=h) {
         cylinder(d=di+w*1.5, h=di);
       }
     }
-    translate([0, 0, h0]) {
+    /* translate([0, 0, h0]) {
       sphere(d=di);
-    }
-    translate([di/2, 0, h0]) {
-      sphere(d=di);
-    }
+    } */
+    /* translate([di/2, 0, h0]) {
+      #sphere(d=di+w);
+    } */
   }
 }
 
@@ -168,13 +192,13 @@ module base_hull(h=h,r=di/2,do=di*3) {
 }
 
 module siphon(do=di+w*2,di=di,h=h) {
-  pipe(do=di+w*2,di=di,h=h-di/2);
+  simple_pipe(do=di+w*2,di=di,h=h-di/2);
   translate([0, 0, h-di/2]) {
     funnel(di=di,do=fdo);
   }
 }
 
-module pipe(do=di+w*2,di=di,h=h) {
+module simple_pipe(do=di+w*2,di=di,h=h) {
   difference() {
     cylinder(d=do, h=h);
     translate([0, 0, -f]) {

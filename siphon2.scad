@@ -87,11 +87,8 @@ module holder(d=di+w*2,n=2) {
   }
 }
 
-module cover_snorkel(cdi=cdi,di=di/3,cr=cr,w=w*0.75,h=h) {
-  do=di+w*2;
-  fn=24;
+module cover_snorkel(x=cdi/2,di=di/3,cr=cr,w=w,h=h-LidHeight-b,fn=24) {
   $fn=fn;
-  x=cdi/2;
   difference() {
     union() {
       cover(h=h,cdi=cdi,r=cr,w=w);
@@ -115,7 +112,7 @@ module snorkel(x=cdi/2+w/2,di=di/3,w=w*0.75,h=h) {
   }
 }
 
-module snorkel_outer(x=cdi/2,di=di/3,w=w*0.75,h=h) {
+module snorkel_outer(x=cdi/2,di=di/2,w=w,h=h) {
   do=di+w*2;
   h0=0;
   //height of cup
@@ -130,13 +127,13 @@ module snorkel_outer(x=cdi/2,di=di/3,w=w*0.75,h=h) {
     translate([do/2-w*1.5, 0, -di]) {
       difference()
       {
-        cylinder(d=do*1.5, h=hc);
+        cylinder(d=do+w*2, h=hc);
         translate([0, 0, w]) {
-          cylinder(d=do*1.5-w*2, h=hc);
+          cylinder(d=do+w, h=hc);
         }
         translate([di-w, 0, hc-w]) {
           sphere(d=do*2);
-      }
+        }
       }
     }
   }

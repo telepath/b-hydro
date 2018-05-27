@@ -10,6 +10,8 @@ wt = 20;                    //water level from top
 sq=0;                       //square
 rn=1;                       //round
 
+ndo=8;
+
 // Thread parameters
 /* ThreadInnerDiameter=15;
 ThreadOuterDiameter=ThreadInnerDiameter+WallThickness*2; */

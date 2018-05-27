@@ -1,11 +1,14 @@
 include <s-hydro/hydroponics.scad>
 include <large_config.scad>
 
-/* rotate(90)
-    finish_inset3(); */
+rotate(90){
+  finish_inset3();
+}
+
 rotate(45)
     divider_cut(x=x,z=z-w*5,d=5,w=w);
 /* divider_finish(x=x/2,z=z-w*5,d=5,w=w); */
+
 
 module divider_finish(x,z,d,w) {
   minkowski() {
@@ -45,12 +48,9 @@ module divider(x=x,z=z,d,w=w) {
           }
         }
       }
-
-
     }
   }
 }
-/* #hole(x=x/4,d=5,w=w); */
 
 module hole(x,d,w) {
   difference() {
@@ -59,7 +59,7 @@ module hole(x,d,w) {
         cylinder(d=d+w, h=w*2, center=true);
       }
     }
-    #hole_border(x=x,d=d,w=w);
+    hole_border(x=x,d=d,w=w);
   }
 }
 /* #hole_border(x=x/4,d=5,w=w); */

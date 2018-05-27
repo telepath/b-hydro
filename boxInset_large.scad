@@ -1,14 +1,32 @@
 include <s-hydro/hydroponics.scad>
 include <large_config.scad>
+include <v-hydro/lib/nozzle.scad>
 
-rotate(90){
-  finish_inset3();
-}
-
-rotate(45)
+tank_nozzle();
+module tank_nozzle(nl=ndo*2,nh=b*2) {
+  rotate(90){
+    difference() {
+      finish_inset3();
+      rotate(-45-90) {
+        translate([0, y/2-b/2, nh]) {
+          rotate([90,0,0]) {
+            cylinder(d=ndo-w*2, h=w*2, center=true);
+          }
+        }
+      }
+    }
+  }
+  rotate(45){
     divider_cut(x=x,z=z-w*5,d=5,w=w);
-/* divider_finish(x=x/2,z=z-w*5,d=5,w=w); */
-
+  }
+  rotate(-45) {
+    translate([0, y/2-b/2+nl, nh]) {
+      rotate([90,0,0]) {
+        nozzle(l=nl,do=ndo,di=ndo-w*2,n1=w/2,n2=-w,$fn=16);
+      }
+    }
+  }
+}
 
 module divider_finish(x,z,d,w) {
   minkowski() {
@@ -66,12 +84,12 @@ module hole(x,d,w) {
 module hole_border(x,d,w) {
   translate([x, 0, 0]) {
     rotate([0,90,0]) {
-      torus(d1=w,d2=d+w);
+      torus_d(d1=w,d2=d+w);
     }
   }
 }
 
-module torus(d1,d2){
+module torus_d(d1,d2){
   rotate_extrude(convexity=10) {
     translate([d2/2, 0, 0]) {
       circle(d=d1);

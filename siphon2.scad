@@ -1,8 +1,6 @@
 include <v-hydro/lib/nozzle.scad>
 /* include <large_config.scad> */
 
-// wall thickness
-w=1.5;
 f=0.01;
 
 //// SIPHON
@@ -15,7 +13,7 @@ h=135;
 // double fine walls
 f2=f*2;
 // cover inner diameter
-cdi=di*2.5;
+cdi=di*4;
 // cover edge radius
 cr=di/4;
 // nozzle outer diameter
@@ -35,7 +33,7 @@ ThreadInnerDiameter=ThreadOuterDiameter-w; // Used only for cleanup. */
 /* screw_siphon(); */
 
 /* screw_siphon_nozzle(); */
-module screw_siphon_nozzle() {
+/* module screw_siphon_nozzle() {
   l=LidHeight*2;
   foot();
   translate([0, 0, LidHeight]) {
@@ -49,7 +47,7 @@ module screw_siphon_nozzle() {
       }
     }
   }
-}
+} */
 
 module screw_siphon() {
   foot();
@@ -76,7 +74,7 @@ module foot() {
 
 module holder(d=di+w*2,n=2) {
   for (i=[0:n]) {
-    rotate(180/n*i) {
+    rotate(180/n*i-45) {
       difference() {
         rotate([90, 0, 0]) {
           cylinder(d=d*2, h=w, center=true);
@@ -87,21 +85,22 @@ module holder(d=di+w*2,n=2) {
   }
 }
 
-module cover_snorkel(x=cdi/2,di=di/3,cr=cr,w=w,h=h-LidHeight-b,fn=24) {
+module cover_snorkel(cdi=cdi,di=di/2,cr=cr,w=w,h=h-LidHeight-b,fn=24) {
+  echo("cover_snorkel",str("cdi=",cdi),str("di=",di),str("cr=",cr),str("w=",w),str("h=",h),str("fn=",fn));
   $fn=fn;
   difference() {
     union() {
       cover(h=h,cdi=cdi,r=cr,w=w);
       translate([0, 0, 0]) {
-        snorkel_outer(x=x,di=di,w=w,h=h,$fn=fn);
+        snorkel_outer(x=cdi/2,di=di,w=w,h=h,$fn=fn);
       }
     }
     translate([0, 0, 0]) {
-      snorkel_inner(x=x,di=di,w=w,h=h,$fn=fn);
+      snorkel_inner(x=cdi/2,di=di,w=w,h=h,$fn=fn);
     }
   }
   translate([0, 0, h+cr]) {
-    holder(d=di*2+w);
+    holder(d=cdi/3);
   }
 }
 
@@ -164,6 +163,7 @@ module snorkel_inner(x=cdi/2,di=di/3,w=w*0.75,h=h) {
 }
 
 module cover(h=h+di/2,cdi=cdi,r=cr,w=w) {
+  echo("cover",str("h=",h),str("cdi=",cdi),str("r=",r),str("w=",w));
   /* render() */
   difference() {
     base_hull(h=h,r=r+w,do=cdi+w*2);
@@ -174,6 +174,7 @@ module cover(h=h+di/2,cdi=cdi,r=cr,w=w) {
 }
 
 module base_hull(h=h,r=di/2,do=di*3) {
+  echo("base_hull",str("h=",h),str("r=",r),str("do=",do));
   d=r*2;
   translate([0, 0, h]) {
     difference() {

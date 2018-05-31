@@ -1,5 +1,8 @@
 include <s-hydro/hydroponics.scad>
 
+// wall thickness
+w=1.5;
+
 z = 150;                     //box height
 
 xd = 2;                     //number of x planters
@@ -11,6 +14,8 @@ sq=0;                       //square
 rn=1;                       //round
 
 ndo=8;
+
+/* cdi=di*4; */
 
 // Thread parameters
 /* ThreadInnerDiameter=15;

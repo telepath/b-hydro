@@ -51,8 +51,10 @@ module divider(x=x,z=z,d,w=w) {
   translate([0, 0, 0]) {
     difference() {
       cylinder(d=x, h=z);
-      cylinder(d=x-w*2, h=z+f);
-      for (j=[1:nv-3]) {
+      translate([0, 0, -f]) {
+        cylinder(d=x-w*2, h=z+f*2);
+      }
+      for (j=[1:nv-2]) {
         rotate(360/nh*(j/2 - floor(j/2))-0.5) {
           translate([0, 0, d*2*j]) {
             for (i=[1:nh]) {

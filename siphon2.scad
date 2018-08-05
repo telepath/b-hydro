@@ -49,24 +49,24 @@ ThreadInnerDiameter=ThreadOuterDiameter-w; // Used only for cleanup. */
   }
 } */
 
-module screw_siphon() {
-  foot();
-  siphon(do=di+w*2,di=di,h=h);
+module screw_siphon(w=w,h=h,t=LidHeight) {
+  foot(w=w,t=t);
+  siphon(do=di+w*2,di=di,h=h,w=w);
 }
 
-module foot() {
-  inner_thread();
-  translate([0, 0, LidHeight]) {
+module foot(w=w,t=LidHeight) {
+  inner_thread(l=t,w=w);
+  translate([0, 0, t]) {
     difference() {
       union() {
-        cylinder(d=ThreadOuterDiameter+w, h=LidHeight/2);
-        translate([0, 0, LidHeight/2]) {
-          cylinder(d1=ThreadOuterDiameter+w, d2=di+w*2, h=LidHeight);
+        cylinder(d=ThreadOuterDiameter+w, h=di/3);
+        translate([0, 0, di/3]) {
+          cylinder(d1=ThreadOuterDiameter+w, d2=di+w*2, h=di/2);
         }
       }
       translate([0, 0, -f]) {
         /* cylinder(d1=ThreadInnerDiameter-WallThickness, d2=di, h=LidHeight+f2); */
-        cylinder(d=di, h=LidHeight*1.5+f2);
+        cylinder(d=di, h=di*1.5+f2);
       }
     }
   }
@@ -85,18 +85,18 @@ module holder(d=di+w*2,n=2) {
   }
 }
 
-module cover_snorkel(cdi=cdi,di=di/2,cr=cr,w=w,h=h-LidHeight-b,fn=24) {
+module cover_snorkel(cdi=cdi,di=di/2,cr=cr,w=w,h=h-LidHeight-b,h0=-di/2,fn=24) {
   echo("cover_snorkel",str("cdi=",cdi),str("di=",di),str("cr=",cr),str("w=",w),str("h=",h),str("fn=",fn));
   $fn=fn;
   difference() {
     union() {
       cover(h=h,cdi=cdi,r=cr,w=w);
       translate([0, 0, 0]) {
-        snorkel_outer(x=cdi/2,di=di,w=w,h=h,$fn=fn);
+        snorkel_outer(x=cdi/2,di=di,w=w,h=h,h0=h0,$fn=fn);
       }
     }
     translate([0, 0, 0]) {
-      snorkel_inner(x=cdi/2,di=di,w=w,h=h,$fn=fn);
+      snorkel_inner(x=cdi/2,di=di,w=w,h=h,h0=h0,$fn=fn);
     }
   }
   translate([0, 0, h+cr]) {
@@ -104,53 +104,54 @@ module cover_snorkel(cdi=cdi,di=di/2,cr=cr,w=w,h=h-LidHeight-b,fn=24) {
   }
 }
 
-module snorkel(x=cdi/2+w/2,di=di/3,w=w*0.75,h=h) {
+module snorkel(x=cdi/2+w/2,di=di/3,w=w*0.75,h=h,h0=-di/3) {
   difference() {
-    snorkel_outer(x=x,di=di,w=w,h=h);
-    snorkel_inner(x=x,di=di,w=w,h=h);
+    snorkel_outer(x=x,di=di,w=w,h=h,h0=h0);
+    snorkel_inner(x=x,di=di,w=w,h=h,h0=h0);
   }
 }
 
-module snorkel_outer(x=cdi/2,di=di/2,w=w,h=h) {
+module snorkel_outer(x=cdi/2,di=di/2,w=w,h=h,h0=-di/2) {
   do=di+w*2;
-  h0=0;
+  /* h0=LidHeight; */
   //height of cup
   hc=do*2+w*2;
   translate([x, 0, 0]) {
-    translate([0, 0, h0]) {
-      cylinder(d=do, h=h-h0);
+    translate([0, 0, h0+di]) {
+      cylinder(d=do, h=h-di+h0);
     }
-    translate([0, 0, h]) {
+    translate([0, 0, h+h0-w/2]) {
       sphere(d=do);
     }
-    translate([do/2-w*1.5, 0, -di]) {
+    translate([di/2-w, 0, h0]) {
       difference()
       {
         cylinder(d=do+w*2, h=hc);
         translate([0, 0, w]) {
           cylinder(d=do+w, h=hc);
         }
-        translate([di-w, 0, hc-w]) {
+        translate([di-w, 0, hc+h0]) {
           sphere(d=do*2);
+          cylinder(d=do*4, h=hc);
         }
       }
     }
   }
 }
 
-module snorkel_inner(x=cdi/2,di=di/3,w=w*0.75,h=h) {
+module snorkel_inner(x=cdi/2,di=di/3,w=w*0.75,h=h,h0=-di/3) {
   do=di+w*2;
-  h0=0;
+  /* h0=LidHeight; */
   translate([x, 0, 0]) {
-    translate([0, 0, h0-f]) {
-      cylinder(d=di, h=h+f2-h0);
+    translate([0, 0, h0+di-f]) {
+      cylinder(d=di, h=h+f2-di-h0);
     }
     translate([0, 0, h]) {
       sphere(d=di);
     }
-    translate([0, 0, h]) {
+    translate([0, 0, h-di/2+w]) {
       rotate([0, -90, 0]) {
-        cylinder(d=di+w*1.5, h=di);
+        cylinder(d=di, h=di);
       }
     }
     /* translate([0, 0, h0]) {
@@ -189,14 +190,14 @@ module base_hull(h=h,r=di/2,do=di*3) {
   cylinder(d=do, h=h);
 }
 
-module siphon(do=di+w*2,di=di,h=h) {
-  simple_pipe(do=di+w*2,di=di,h=h-di/2);
+module siphon(do=di+w*2,di=di,h=h,w=w) {
+  simple_pipe(do=di+w*2,di=di,h=h-di/2,w=w);
   translate([0, 0, h-di/2]) {
-    funnel(di=di,do=fdo);
+    funnel(di=di,do=fdo,w=w);
   }
 }
 
-module simple_pipe(do=di+w*2,di=di,h=h) {
+module simple_pipe(do=di+w*2,di=di,h=h,w=w) {
   difference() {
     cylinder(d=do, h=h);
     translate([0, 0, -f]) {
@@ -205,13 +206,14 @@ module simple_pipe(do=di+w*2,di=di,h=h) {
   }
 }
 
-module funnel(di=di,do=di*2) {
+module funnel(di=di,do=di*2,w=w) {
+  f=w/5;
   difference() {
     intersection() {
-      cylinder(d=fdo, h=di);
-      torus_d(do/2,di+do/2);
+      cylinder(d=fdo, h=(fdo-di)/2);
+      torus_d(d1=fdo-di+f*2,d2=fdo);
     }
-      torus_d(do/2-w,di+do/2+w);
+    torus_d(d1=fdo-di-w,d2=fdo+w);
   }
 }
 

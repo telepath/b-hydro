@@ -7,3 +7,6 @@
 [submodule "threaded-library"]
 	path = threaded-library
 	url = ../threaded-library
+[submodule "lib/Write.scad"]
+	path = lib/Write.scad
+	url = git@github.com:telepath/Write.scad.git

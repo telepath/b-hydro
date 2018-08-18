@@ -1,4 +1,4 @@
-include <siphon_hollow.scad>
+include <lib/siphon_hollow.scad>
 
 /* cut_view() */
 rotate([180, 0, 0]) {

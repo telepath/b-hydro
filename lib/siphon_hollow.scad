@@ -9,8 +9,8 @@ dii=10;
 cdo=fdo+(di-dii)+w*2;
 
 /* cut_view(y=1){ */
-  screw_siphon(di=di,do=di+w*2,fdo=fdo,h=wb,w=w);
-  cover_snorkel_holow();
+  /* screw_siphon(di=di,do=di+w*2,fdo=fdo,h=wb,w=w);
+  cover_snorkel_holow(); */
 /* } */
 
 module cut_view(x=1000,y=1000,z=1000) {

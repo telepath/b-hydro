@@ -1,4 +1,4 @@
-use <v-hydro/connector.scad>
+use <lib/v-hydro/connector.scad>
 
 do = 9;		//outer diameter of the connector/nozzle (plus nozzle ridges)
 di = 6;		//innter diameter of the connector/nozzle

@@ -13,3 +13,6 @@
 [submodule "lib/s-hydro"]
 	path = lib/s-hydro
 	url = ../s-hydro.git
+[submodule "lib/MCAD"]
+	path = lib/MCAD
+	url = https://github.com/openscad/MCAD.git

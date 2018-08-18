@@ -1,5 +1,6 @@
 include <lib/siphon2.scad>
 include <lib/s-hydro/lib/hydroponics.scad>
+include <lib/MCAD/regular_shapes.scad>
 
 w=1.5;
 
@@ -72,11 +73,11 @@ module donut_top(di=dii,do=cdo,w=w) {
   difference() {
     intersection() {
       cylinder(d=do+w*2, h=d1*0.45);
-      torus_abs(di=di,do=do);
+      torus(outerRadius=do/2, innerRadius=di/2);
     }
     intersection() {
       cylinder(d=do+w*2, h=d1*0.45-w);
-      torus_abs(di=di+w*2,do=do-w*2);
+      torus(outerRadius=(do-w*2)/2, innerRadius=(di+w*2)/2);
     }
   }
 }

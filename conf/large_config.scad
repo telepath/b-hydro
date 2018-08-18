@@ -1,4 +1,4 @@
-include <lib/s-hydro/hydroponics.scad>
+include <lib/s-hydro/lib/hydroponics.scad>
 
 // wall thickness
 w=1.5;

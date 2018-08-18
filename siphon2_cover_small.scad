@@ -1,5 +1,5 @@
-include <lib/s-hydro/hydroponics.scad>
-include <siphon2.scad>
+include <lib/s-hydro/lib/hydroponics.scad>
+include <lib/siphon2.scad>
 
 /* cdi_safe=max(cdi,bd*1.25); */
 h=wb;

@@ -1,5 +1,5 @@
-include <siphon2.scad>
-include <lib/s-hydro/hydroponics.scad>
+include <lib/siphon2.scad>
+include <lib/s-hydro/lib/hydroponics.scad>
 
 w=1.5;
 

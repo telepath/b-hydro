@@ -1,4 +1,4 @@
-include <lib/s-hydro/hydroponics.scad>
+include <lib/s-hydro/lib/hydroponics.scad>
 include <conf/large_config.scad>
 include <lib/v-hydro/lib/nozzle.scad>
 

@@ -1,5 +1,5 @@
 include <boxInset_large.scad>
-include <siphon2.scad>
+include <lib/siphon2.scad>
 
 display();
 

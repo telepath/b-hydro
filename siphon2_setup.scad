@@ -1,4 +1,4 @@
-include <siphon2.scad>
+include <lib/siphon2.scad>
 include <conf/large_config.scad>
 
 screw_siphon();

@@ -1,12 +1,15 @@
-[submodule "s-hydro"]
-	path = lib/s-hydro
-	url = ../s-hydro.git
-[submodule "v-hydro"]
+[submodule "lib/v-hydro"]
 	path = lib/v-hydro
-	url = git@github.com:telepath/v-hydro.git
-[submodule "threaded-library"]
+	url = ../v-hydro.git
+[submodule "lib/threaded-library"]
 	path = lib/threaded-library
-	url = ../threaded-library
+	url = ../threaded-library.git
 [submodule "lib/Write.scad"]
 	path = lib/Write.scad
 	url = git@github.com:telepath/Write.scad.git
+[submodule "lib/openscad-slicer-makefile"]
+	path = lib/openscad-slicer-makefile
+	url = ../openscad-slicer-makefile.git
+[submodule "lib/s-hydro"]
+	path = lib/s-hydro
+	url = ../s-hydro.git

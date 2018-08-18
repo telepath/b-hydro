@@ -1,6 +1,6 @@
-include <s-hydro/hydroponics.scad>
+include <lib/s-hydro/hydroponics.scad>
 include <large_config.scad>
-include <v-hydro/lib/nozzle.scad>
+include <lib/v-hydro/lib/nozzle.scad>
 
 tank_nozzle();
 module tank_nozzle(nl=ndo*2,nh=b*2) {

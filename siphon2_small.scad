@@ -1,4 +1,4 @@
-include <s-hydro/hydroponics.scad>
+include <lib/s-hydro/hydroponics.scad>
 include <siphon2.scad>
 
 h=wb;

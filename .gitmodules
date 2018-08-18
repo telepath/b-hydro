@@ -1,11 +1,11 @@
 [submodule "s-hydro"]
-	path = s-hydro
+	path = lib/s-hydro
 	url = ../s-hydro.git
 [submodule "v-hydro"]
-	path = v-hydro
+	path = lib/v-hydro
 	url = git@github.com:telepath/v-hydro.git
 [submodule "threaded-library"]
-	path = threaded-library
+	path = lib/threaded-library
 	url = ../threaded-library
 [submodule "lib/Write.scad"]
 	path = lib/Write.scad

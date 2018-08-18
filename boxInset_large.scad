@@ -1,5 +1,5 @@
 include <lib/s-hydro/hydroponics.scad>
-include <large_config.scad>
+include <conf/large_config.scad>
 include <lib/v-hydro/lib/nozzle.scad>
 
 tank_nozzle();

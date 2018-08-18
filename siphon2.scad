@@ -1,6 +1,6 @@
 include <lib/v-hydro/lib/nozzle.scad>
 use <lib/Write.scad/Write.scad>
-/* include <large_config.scad> */
+/* include <conf/large_config.scad> */
 
 f=0.01;
 

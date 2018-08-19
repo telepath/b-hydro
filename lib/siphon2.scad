@@ -171,13 +171,13 @@ module snorkel_inner(x=cdi/2,di=di/3,w=w*0.75,h=h,h0=-di/3) {
 
 module cover(h=h+di/2,cdi=cdi,r=cr,w=w) {
   echo("cover",str("h=",h),str("cdi=",cdi),str("r=",r),str("w=",w));
-  writecylinder(text=str(cdi,"/",h," ",MAT),where=[0,0,0],radius=cdi/2+w-0.5,height=h,rotate=-90);
   /* render() */
   difference() {
     base_hull(h=h,r=r+w,do=cdi+w*2);
     translate([0, 0, -w]) {
       base_hull(h=h+w,r=r,do=cdi);
     }
+    writecylinder(text=str(cdi,"/",h," ",MAT),where=[0,0,0],radius=cdi/2+w-0.5,height=h,rotate=-90);
   }
 }
 
@@ -198,9 +198,11 @@ module base_hull(h=h,r=di/2,do=di*3) {
 }
 
 module siphon(do=di+w*2,di=di,h=h,w=w,fdo=fdo) {
-  writecylinder(text=str(di,"/",fdo," ",MAT),where=[0,0,0],radius=do/2-0.5,height=h,rotate=-90);
   pipe_h=h-((fdo-di)/2);
-  simple_pipe(do=di+w*2,di=di,h=pipe_h,w=w);
+  difference() {
+    simple_pipe(do=di+w*2,di=di,h=pipe_h,w=w);
+    writecylinder(text=str(di,"/",fdo," ",MAT),where=[0,0,0],radius=do/2-0.5,height=h,rotate=-90);
+  }
   translate([0, 0, pipe_h]) {
     funnel(di=di,do=fdo,w=w);
   }

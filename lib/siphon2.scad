@@ -51,8 +51,10 @@ ThreadInnerDiameter=ThreadOuterDiameter-w; // Used only for cleanup. */
   }
 } */
 
-module screw_siphon(w=w,h=h,t=LidHeight) {
-  foot(w=w,t=t);
+SW30=34.64;
+SW36=41.57;
+module screw_siphon(w=w,h=h,t=LidHeight,dhex=0) {
+  foot(w=w,t=t,dhex=dhex);
   difference() {
     siphon(do=di+w*2,di=di,h=h+t,w=w);
     labelcylinder(
@@ -65,14 +67,17 @@ module screw_siphon(w=w,h=h,t=LidHeight) {
   }
 }
 
-module foot(w=w,t=LidHeight) {
+module foot(w=w,t=LidHeight,dhex=0) {
   inner_thread(l=t,w=w);
   translate([0, 0, t]) {
     difference() {
       union() {
         cylinder(d=ThreadOuterDiameter+w, h=di/3);
-        translate([0, 0, di/3]) {
-          cylinder(d1=ThreadOuterDiameter+w, d2=di+w*2, h=di/2);
+        hull() {
+          cylinder(d=dhex, h=di/3,$fn=6);
+          translate([0, 0, di/3]) {
+            cylinder(d1=ThreadOuterDiameter+w, d2=di+w*2, h=di);
+          }
         }
       }
       translate([0, 0, -f]) {

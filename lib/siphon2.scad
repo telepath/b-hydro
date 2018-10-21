@@ -53,7 +53,7 @@ ThreadInnerDiameter=ThreadOuterDiameter-w; // Used only for cleanup. */
 
 SW30=34.64;
 SW36=41.57;
-module screw_siphon(w=w,h=h,t=LidHeight,dhex=0) {
+module screw_siphon(w=w,h=h,t=LidHeight,fdo=fdo,dhex=SW36) {
   foot(w=w,t=t,dhex=dhex);
   difference() {
     siphon(do=di+w*2,di=di,h=h+t,w=w);
@@ -74,15 +74,15 @@ module foot(w=w,t=LidHeight,dhex=0) {
       union() {
         cylinder(d=ThreadOuterDiameter+w, h=di/3);
         hull() {
-          cylinder(d=dhex, h=di/3,$fn=6);
+          cylinder(d=dhex, h=t/2,$fn=6);
           translate([0, 0, di/3]) {
-            cylinder(d1=ThreadOuterDiameter+w, d2=di+w*2, h=di);
+            cylinder(d1=ThreadOuterDiameter+w, d2=di+w*2, h=max(dhex/3,di/2));
           }
         }
       }
       translate([0, 0, -f]) {
         /* cylinder(d1=ThreadInnerDiameter-WallThickness, d2=di, h=LidHeight+f2); */
-        cylinder(d=di, h=di*1.5+f2);
+        cylinder(d=di, h=h);
       }
     }
   }
@@ -136,7 +136,7 @@ module snorkel_outer(x=cdi/2,di=di/2,w=w,h=h,h0=-di/2) {
     translate([0, 0, h0]) {
       cylinder(d=do, h=h+h0);
     }
-    translate([0, 0, h+h0-w/2]) {
+    translate([0, 0, h+h0]) {
       sphere(d=do);
     }
     translate([w*1.5, 0, h0]) {
@@ -162,10 +162,10 @@ module snorkel_inner(x=cdi/2,di=di/3,w=w*0.75,h=h,h0=-di/3) {
     translate([0, 0, h0+w-f]) {
       cylinder(d=di, h=h+f2-w-h0);
     }
-    translate([0, 0, h]) {
+    translate([0, 0, h+h0]) {
       sphere(d=di);
     }
-    translate([0, 0, h-di/2+w]) {
+    translate([0, 0, h]) {
       rotate([0, -90, 0]) {
         cylinder(d=di, h=di);
       }

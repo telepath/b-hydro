@@ -40,6 +40,6 @@ module labelcylinder(
 ) {
   b=th+1;
   a=(180*b)/(r*3.1415);
-  writecylinder(text=text1,where=[0,0,0],radius=r-t,height=h,rotate=rot,h=th,t=t*2);
-  writecylinder(text=text2,where=[0,0,0],radius=r-t,height=h,rotate=rot,east=a,h=th,t=t*2);
+  writecylinder(text=text1,where=[0,0,0],radius=r,height=h,rotate=rot,h=th,t=t*2);
+  writecylinder(text=text2,where=[0,0,0],radius=r,height=h,rotate=rot,east=a,h=th,t=t*2);
 }

@@ -172,7 +172,9 @@ module snorkel_inner(x=cdi/2,di=di/3,w=w*0.75,h=h,h0=-di/3) {
     }
     translate([0, 0, di/2+w]) {
       rotate([0, 90, 0]) {
-        cylinder(d=di, h=di+f*2);
+        translate([0, 0, -w]) {
+          cylinder(d=di, h=di);
+        }
       }
     }
     /* translate([0, 0, h0]) {

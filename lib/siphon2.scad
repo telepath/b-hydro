@@ -57,18 +57,20 @@ module screw_siphon(w=w,h=h,t=LidHeight,fdo=fdo,dhex=SW36) {
   foot(w=w,t=t,dhex=dhex);
   difference() {
     siphon(do=di+w*2,di=di,h=h+t,w=w);
-    labelcylinder(
-      r=di/2+w,
-      h=h,
-      t=w/2,
-      text1=str(di,"/",fdo,"/",h," ",MAT),
-      text2=str(SRC," ",FILE," ",VER)
-    );
+    translate([0, 0, t*2]) {
+      labelcylinder(
+        r=di/2+w,
+        h=h,
+        t=w/2,
+        text1=str(di,"/",fdo,"/",h," ",MAT),
+        text2=str(SRC," ",FILE," ",VER)
+      );
+    }
   }
 }
 
 module foot(w=w,t=LidHeight,dhex=0) {
-  inner_thread(l=t,w=w);
+  inner_thread(l=t,w=w*2);
   translate([0, 0, t]) {
     difference() {
       union() {
